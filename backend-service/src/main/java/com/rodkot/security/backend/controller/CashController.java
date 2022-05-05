@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("/cash")
+@RestController
+@RequestMapping("/cash")
 @AllArgsConstructor
 public class CashController {
     private final CashService cashService;

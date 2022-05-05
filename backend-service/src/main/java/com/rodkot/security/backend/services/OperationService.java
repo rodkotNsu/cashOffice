@@ -10,4 +10,6 @@ public interface OperationService {
     List<OperationDto> getAll();
 
     OperationDto getById(Long id);
+
+    void addOperation(OperationDto operationDto);
 }

@@ -14,8 +14,6 @@ public interface CashService {
 
     void removeById(Long id);
 
-    List<CashDto> getByClient(Long id);
-
     List<CashDto> getByOrganization(Long id);
 
     List<CashDto> getByAllowUser(Long id);

@@ -8,16 +8,14 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 
 @AllArgsConstructor
-@RestController("/operation")
+@RestController
+@RequestMapping("/operation")
 public class OperationController {
   private final OperationService operationService;
 
@@ -35,38 +33,38 @@ public class OperationController {
                                            @PathVariable Long id) {
     return Response.withData(operationService.getById(id));
   }
-  @PostMapping("/user/{id}")
-  @Operation(summary = "Возвращает организации заданного пользователя")
-  @ApiResponse(responseCode = "200")
-  public Response<List<OrganizationDto>> getByClient(@Parameter(description = "Идентификатор пользователя, по которому ищутся организации")
-                                                     @PathVariable Long id) {
-    return Response.withData(organizationService.getByUser(id));
-  }
+//  @PostMapping("/user/{id}")
+//  @Operation(summary = "Возвращает организации заданного пользователя")
+//  @ApiResponse(responseCode = "200")
+//  public Response<List<OrganizationDto>> getByClient(@Parameter(description = "Идентификатор пользователя, по которому ищутся организации")
+//                                                     @PathVariable Long id) {
+//    return Response.withData(organizationService.getByUser(id));
+//  }
 
   @PostMapping("/create")
-  @Operation(summary = "Создает организации")
+  @Operation(summary = "Создает Операцию")
   @ApiResponse(responseCode = "200")
   @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Объект новой организации")
-  public void create(@RequestBody OrganizationDto organization) {
-    organizationService.addOrganization(organization);
+  public void create(@RequestBody OperationDto operationDto) {
+    operationService.addOperation(operationDto);
   }
 
-  @PostMapping("/{id}/update")
-  @Operation(summary = "Обновляет организацию")
-  @ApiResponse(responseCode = "200")
-  @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Объект обновленной организации")
-  public void update(@Parameter(description = "id обновляемой организации") @PathVariable Long id,
-                     @RequestBody OrganizationDto organization) {
-    organizationService.updateOrganization(id,organization);
-  }
+//  @PostMapping("/{id}/update")
+//  @Operation(summary = "Обновляет организацию")
+//  @ApiResponse(responseCode = "200")
+//  @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Объект обновленной организации")
+//  public void update(@Parameter(description = "id обновляемой организации") @PathVariable Long id,
+//                     @RequestBody OrganizationDto organization) {
+//    organizationService.updateOrganization(id,organization);
+//  }
 
-  @PostMapping("/{id}/delete")
-  @Operation(summary = "Удаляет организацию")
-  @ApiResponse(responseCode = "200")
-  public void delete(@Parameter(description = "id удаляемой организации")
-                     @PathVariable Long id) {
-    organizationService.removeById(id);
-  }
-
+//  @PostMapping("/{id}/delete")
+//  @Operation(summary = "Удаляет организацию")
+//  @ApiResponse(responseCode = "200")
+//  public void delete(@Parameter(description = "id удаляемой организации")
+//                     @PathVariable Long id) {
+//    organizationService.removeById(id);
+//  }
+//
 
 }

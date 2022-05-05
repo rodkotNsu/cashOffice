@@ -1,10 +1,14 @@
-package com.rodkot.security.backend.services;
+package com.rodkot.security.backend.services.impl;
 
 
+import com.rodkot.security.backend.dto.RoleDto;
+import com.rodkot.security.backend.dto.UserDto;
 import com.rodkot.security.backend.entity.Role;
 import com.rodkot.security.backend.entity.User;
+import com.rodkot.security.backend.mapper.UserMapper;
 import com.rodkot.security.backend.repository.RoleRepo;
 import com.rodkot.security.backend.repository.UserRepo;
+import com.rodkot.security.backend.services.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -23,12 +27,12 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
-public class UserServiceImpl implements UserService, UserDetailsService {
+public class UserServiceImpl implements UserService {
 
     private final UserRepo userRepo;
     private final RoleRepo roleRepo;
 
-
+    private final UserMapper userMapper;
 
 
     @Override
@@ -60,13 +64,24 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepo.findByUsername(username);
-        if (user == null)
-            throw new UsernameNotFoundException("error");
-        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        user.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getName())));
-
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
+    public List<UserDto> getAll() {
+        List<User> users = userRepo.findAll();
+        List<UserDto> userDtos = new ArrayList<>();
+        for (User user:users) {
+            userDtos.add(userMapper.userToUserDto(user));
+        }
+        return userDtos;
     }
+
+    @Override
+    public void addUser(UserDto user) {
+        userRepo.save(userMapper.userDtoToUser(user));
+    }
+
+    @Override
+    public void addRole(RoleDto role) {
+roleRepo.save(new Role(0L,"ROLE_ADMIN"));
+    }
+
+
 }

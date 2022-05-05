@@ -34,6 +34,6 @@ public class Operation {
     @OneToOne
     Document audio;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     Collection<Document> documents = new ArrayList<>();
 }

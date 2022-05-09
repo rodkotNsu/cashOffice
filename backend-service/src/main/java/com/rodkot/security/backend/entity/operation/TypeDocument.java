@@ -1,4 +1,4 @@
-package com.rodkot.security.backend;
+package com.rodkot.security.backend.entity.operation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

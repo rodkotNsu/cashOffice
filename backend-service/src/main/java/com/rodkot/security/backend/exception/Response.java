@@ -1,4 +1,4 @@
-package com.rodkot.security.backend;
+package com.rodkot.security.backend.exception;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;

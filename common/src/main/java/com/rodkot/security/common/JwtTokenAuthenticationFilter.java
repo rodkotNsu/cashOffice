@@ -23,11 +23,6 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-/**
- * Authenticate requests with header 'Authorization: Bearer jwt-token'.
- *
- * @author shuaicj 2017/10/18
- */
 public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtAuthenticationConfig config;
@@ -37,10 +32,6 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
         this.config = config;
         this.authenticationManager = authenticationManager;
     }
-
-
-
-
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -93,6 +84,5 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
 
     }
-
 
 }

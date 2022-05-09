@@ -1,6 +1,6 @@
 package com.rodkot.security.backend.entity;
 
-import com.rodkot.security.backend.TypeDocument;
+import com.rodkot.security.backend.entity.operation.TypeDocument;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,18 +16,18 @@ import java.time.OffsetDateTime;
 public class Document {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Long id;
+    private Long id;
 
     @Column
     @Enumerated(EnumType.STRING)
-    TypeDocument typeDocument;
+    private TypeDocument typeDocument;
 
     @Column
-    String name;
+    private String name;
 
     @Column
-    String path;
+    private String path;
 
     @Column
-    OffsetDateTime createDataTime;
+    private OffsetDateTime createDataTime;
 }

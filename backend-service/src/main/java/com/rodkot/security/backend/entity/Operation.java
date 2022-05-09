@@ -1,6 +1,8 @@
 package com.rodkot.security.backend.entity;
 
-import com.rodkot.security.backend.TypeOperation;
+import com.rodkot.security.backend.entity.operation.TypeOperation;
+import com.rodkot.security.backend.entity.operation.ConfigureOperation;
+import com.rodkot.security.backend.entity.operation.OperationAction;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,21 +21,28 @@ import java.util.Collection;
 public class Operation {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Long id;
+    private Long id;
 
     @Column
     @Enumerated(EnumType.STRING)
-    TypeOperation typeOperation;
+    private TypeOperation typeOperation;
 
     @Column
-    OffsetDateTime dateTime;
+    private OffsetDateTime dateTime;
 
     @Column
-    Long amount;
+    private Long amount;
+
+    @Column
+    private String comment;
 
     @OneToOne
-    Document audio;
+    private Document audio;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    Collection<Document> documents = new ArrayList<>();
+    private Collection<Document> documents = new ArrayList<>();
+
+    OperationAction getOperationAction(){
+        return ConfigureOperation.getOperationAction(typeOperation);
+    }
 }

@@ -25,8 +25,8 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     public List<OrganizationDto> getAll() {
         List<Organization> organizations = organizationRepo.findAll();
-        List<OrganizationDto> organizationDtos= new ArrayList<>();
-        for (Organization organization :organizations) {
+        List<OrganizationDto> organizationDtos = new ArrayList<>();
+        for (Organization organization : organizations) {
             organizationDtos.add(organizationMapper.organizationToOrganizationDto(organization));
         }
         return organizationDtos;
@@ -34,12 +34,18 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     public OrganizationDto getById(Long id) {
-        return null;
+
+        return organizationMapper.organizationToOrganizationDto(organizationRepo.getOne(id));
     }
 
     @Override
-    public List<OrganizationDto> getByUser(Long id) {
-        return null;
+    public List<OrganizationDto> getAllByUser(Long id) {
+        List<Organization> organizations = organizationRepo.getOrganizationByUserId(id);
+        List<OrganizationDto> organizationDtos = new ArrayList<>();
+        for (Organization org : organizations) {
+            organizationDtos.add(organizationMapper.organizationToOrganizationDto(org));
+        }
+        return organizationDtos;
     }
 
     @Override
@@ -54,7 +60,8 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    public void updateOrganization(Long id, OrganizationDto organization) {
-
+    public void updateOrganization(Long id, OrganizationDto organizationDto) {
+        Organization organization = organizationRepo.getOne(id);
+//Organization organization
     }
 }

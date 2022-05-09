@@ -1,5 +1,6 @@
 package com.rodkot.security.backend.entity;
 
+import com.rodkot.security.backend.exception.InsufficientFundsException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,7 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -19,19 +21,29 @@ import java.util.Collection;
 public class Cash {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Long id;
+    private Long id;
 
     @ManyToOne
-    Organization organization;
+    private Organization organization;
 
     @Column
-    Long money;
+    private String name;
+
+    @Column
+    private Long money;
 
     @ManyToMany
     @LazyCollection(LazyCollectionOption.FALSE)
-    Collection<Operation> operations = new ArrayList<>();
+    private Collection<Operation> operations = new ArrayList<>();
 
     @ManyToMany
     @LazyCollection(LazyCollectionOption.FALSE)
-    Collection<User> allowUsers = new ArrayList<>();
+    private Collection<User> allowUsers = new ArrayList<>();
+
+    @Column
+    private OffsetDateTime dateTimeCreated;
+
+    public void runOperation(Operation operation) throws InsufficientFundsException {
+        operation.getOperationAction().run(this, operation);
+    }
 }

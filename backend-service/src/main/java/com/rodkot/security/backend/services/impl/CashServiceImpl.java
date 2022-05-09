@@ -1,11 +1,15 @@
 package com.rodkot.security.backend.services.impl;
 
 import com.rodkot.security.backend.dto.CashDto;
+import com.rodkot.security.backend.dto.OperationDto;
+import com.rodkot.security.backend.dto.UserDto;
 import com.rodkot.security.backend.entity.Cash;
+import com.rodkot.security.backend.entity.Operation;
 import com.rodkot.security.backend.exception.BadRequestException;
 import com.rodkot.security.backend.mapper.CashMapper;
 import com.rodkot.security.backend.repository.CashRepo;
 import com.rodkot.security.backend.services.CashService;
+import com.rodkot.security.backend.services.OperationService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -42,16 +46,32 @@ public class CashServiceImpl implements CashService {
 
     @Override
     public void removeById(Long id) {
-
+        cashRepo.deleteById(id);
     }
 
     @Override
     public List<CashDto> getByOrganization(Long id) {
-        return null;
+
+        List<Cash> cashList = cashRepo.getCashByOrganizationId(id);
+        List<CashDto> cashDtoList = new ArrayList<>();
+        for (Cash cash : cashList) {
+            cashDtoList.add(cashMapper.cashToCashDto(cash));
+        }
+        return cashDtoList;
     }
 
     @Override
     public List<CashDto> getByAllowUser(Long id) {
-        return null;
+        List<Cash> cashList = cashRepo.getByAllowUser(id);
+        List<CashDto> cashDtoList = new ArrayList<>();
+        for (Cash cash : cashList) {
+            cashDtoList.add(cashMapper.cashToCashDto(cash));
+        }
+        return cashDtoList;
+    }
+
+    @Override
+    public void putByAllowUser(Long idCash, UserDto userDto) {
+        cashRepo.putAllowUserInCash(idCash, userDto.getId());
     }
 }

@@ -9,7 +9,7 @@ public interface OrganizationService {
 
     OrganizationDto getById(Long id);
 
-    List<OrganizationDto> getByUser(Long id);
+    List<OrganizationDto> getAllByUser(Long id);
 
     void addOrganization(OrganizationDto organization);
 

@@ -4,12 +4,6 @@ import lombok.Getter;
 import lombok.ToString;
 import org.springframework.beans.factory.annotation.Value;
 
-/**
- * Config JWT.
- * Only one property 'shuaicj.security.jwt.secret' is mandatory.
- *
- * @author shuaicj 2017/10/18
- */
 @Getter
 @ToString
 public class JwtAuthenticationConfig {

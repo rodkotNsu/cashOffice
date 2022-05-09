@@ -1,6 +1,5 @@
 package com.rodkot.security.backend.exception;
 
-import com.rodkot.security.backend.ErrorCode;
 import lombok.Getter;
 
 @Getter

@@ -1,11 +1,12 @@
 package com.rodkot.security.backend.controller;
 
-import com.rodkot.security.backend.Response;
+import com.rodkot.security.backend.exception.Response;
 import com.rodkot.security.backend.dto.OrganizationDto;
 import com.rodkot.security.backend.services.OrganizationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,29 +15,30 @@ import java.util.List;
 @RestController
 @RequestMapping("/organization")
 @AllArgsConstructor
+@Tag(name = "Организации", description = "Запросы для взаимодействия с экземплярами организаций")
 public class OrganizationController {
     OrganizationService organizationService;
 
-    @PostMapping("/all")
+    @GetMapping("/all")
     @Operation(summary = "Возвращает все существующие организации")
     @ApiResponse(responseCode = "200")
     public Response<List<OrganizationDto>> getAll() {
         return Response.withData(organizationService.getAll());
     }
 
-    @PostMapping("/{id}")
+    @GetMapping("/{id}")
     @Operation(summary = "Возвращает организацию по заданному id")
     @ApiResponse(responseCode = "200")
     public Response<OrganizationDto> getById(@Parameter(description = "Идентификатор необходимой организации")
                                              @PathVariable Long id) {
         return Response.withData(organizationService.getById(id));
     }
-    @PostMapping("/user/{id}")
+    @GetMapping("/user/{id}")
     @Operation(summary = "Возвращает организации заданного пользователя")
     @ApiResponse(responseCode = "200")
-    public Response<List<OrganizationDto>> getByClient(@Parameter(description = "Идентификатор пользователя, по которому ищутся организации")
+    public Response<List<OrganizationDto>> getAllByClient(@Parameter(description = "Идентификатор пользователя, по которому ищутся организации")
                                                   @PathVariable Long id) {
-        return Response.withData(organizationService.getByUser(id));
+        return Response.withData(organizationService.getAllByUser(id));
     }
 
     @PostMapping("/create")
@@ -56,7 +58,7 @@ public class OrganizationController {
         organizationService.updateOrganization(id,organization);
     }
 
-    @PostMapping("/{id}/delete")
+    @DeleteMapping("/{id}/delete")
     @Operation(summary = "Удаляет организацию")
     @ApiResponse(responseCode = "200")
     public void delete(@Parameter(description = "id удаляемой организации")

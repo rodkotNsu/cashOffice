@@ -12,8 +12,6 @@ import java.util.List;
 
 public interface UserService {
     User saveUser(User user);
-    Role saveRole(Role role);
-
     User getUser(String username);
 
     void addRoleToUser(String username, String roleName);
@@ -22,8 +20,11 @@ public interface UserService {
 
     List<UserDto> getAll();
 
-
     void addUser(UserDto user);
 
-    void addRole(RoleDto role);
+    void updateUser(Long idUser, UserDto userDto);
+
+    void deleteUser(Long idUser);
+
+    UserDto getUserById(Long idUser);
 }

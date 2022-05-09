@@ -1,14 +1,13 @@
 package com.rodkot.security.backend.dto;
 
-import com.rodkot.security.backend.entity.User;
-import lombok.Data;
+import com.rodkot.security.backend.entity.operation.TypeDocument;
 
-import javax.persistence.*;
 import java.time.OffsetDateTime;
-@Data
-public class OrganizationDto {
+
+public class DocumentDto {
     private Long id;
+    private TypeDocument typeDocument;
     private String name;
-    private User owner;
+    private String path;
     private OffsetDateTime createDataTime;
 }

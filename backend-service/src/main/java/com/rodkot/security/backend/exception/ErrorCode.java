@@ -1,4 +1,4 @@
-package com.rodkot.security.backend;
+package com.rodkot.security.backend.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,7 +14,8 @@ public enum ErrorCode {
     NOT_FOUND(HttpStatus.NOT_FOUND, "ОТСУТСТВУЮТ ПРАВА ДОСТУПА"),
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "ВНУТРЕНЯЯ ОШИБКА СЕРВЕРА"),
     SERVICE_UNAVAILABLE(HttpStatus.SERVICE_UNAVAILABLE, "СЕРВИС НЕДОСТУПЕН"),
-    GATEWAY_TIMEOUT(HttpStatus.GATEWAY_TIMEOUT, "ВРЕМЯ ОЖИДАНИЯ ИСТЕКЛО");
+    GATEWAY_TIMEOUT(HttpStatus.GATEWAY_TIMEOUT, "ВРЕМЯ ОЖИДАНИЯ ИСТЕКЛО"),
+    PAYLOAD_TOO_LARGE(HttpStatus.PAYLOAD_TOO_LARGE, "ОБЪЕКТ ЗАПРОСА СЛИШКОМ ВЕЛИК   ");
 
     private final HttpStatus httpStatus;
     private final String errorMessage;

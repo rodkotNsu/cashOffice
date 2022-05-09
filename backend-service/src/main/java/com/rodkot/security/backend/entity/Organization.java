@@ -16,14 +16,14 @@ import java.time.OffsetDateTime;
 public class Organization {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Long id;
+    private Long id;
 
     @Column
-    String name;
+    private String name;
 
     @ManyToOne
-    User owner;
+    private User owner;
 
     @Column
-    OffsetDateTime createDataTime;
+    private OffsetDateTime createDataTime;
 }

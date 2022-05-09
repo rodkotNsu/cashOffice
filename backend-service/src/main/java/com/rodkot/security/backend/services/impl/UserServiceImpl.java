@@ -11,6 +11,7 @@ import com.rodkot.security.backend.repository.UserRepo;
 import com.rodkot.security.backend.services.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.mapstruct.control.MappingControl;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -42,11 +43,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Role saveRole(Role role) {
-        return roleRepo.save(role);
-    }
-
-    @Override
     public User getUser(String username) {
         return userRepo.findByUsername(username);
     }
@@ -67,21 +63,26 @@ public class UserServiceImpl implements UserService {
     public List<UserDto> getAll() {
         List<User> users = userRepo.findAll();
         List<UserDto> userDtos = new ArrayList<>();
-        for (User user:users) {
+        for (User user : users) {
             userDtos.add(userMapper.userToUserDto(user));
         }
         return userDtos;
     }
 
     @Override
-    public void addUser(UserDto user) {
-        userRepo.save(userMapper.userDtoToUser(user));
+    public void addUser(UserDto user) { saveUser(userMapper.userDtoToUser(user));
     }
 
     @Override
-    public void addRole(RoleDto role) {
-roleRepo.save(new Role(0L,"ROLE_ADMIN"));
+    public void updateUser(Long idUser, UserDto userDto) {
+        User user= userMapper.userDtoToUser(userDto);
+        user.setId(idUser);
+        saveUser(user);
     }
 
+    @Override
+    public void deleteUser(Long idUser) {
+        userRepo.deleteById(idUser);
+    }
 
 }

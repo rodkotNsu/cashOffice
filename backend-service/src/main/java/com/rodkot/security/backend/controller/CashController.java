@@ -1,14 +1,14 @@
 package com.rodkot.security.backend.controller;
 
-import com.rodkot.security.backend.Response;
+import com.rodkot.security.backend.exception.Response;
 import com.rodkot.security.backend.dto.CashDto;
-import com.rodkot.security.backend.entity.Cash;
+import com.rodkot.security.backend.dto.UserDto;
 import com.rodkot.security.backend.services.CashService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/cash")
 @AllArgsConstructor
+@Tag(name = "Кассы", description = "Запросы для взаимодействия с экземплярами касс")
 public class CashController {
     private final CashService cashService;
 
@@ -27,7 +28,7 @@ public class CashController {
         return Response.withData(cashService.getAll());
     }
 
-    @PostMapping("/{id}")
+    @GetMapping("/{id}")
     @ApiResponse(responseCode = "200")
     @Operation(summary = "Возвращает кассу по заданному id")
     public Response<CashDto> getById(
@@ -46,15 +47,15 @@ public class CashController {
         cashService.addCash(cash);
     }
 
-    @PostMapping("/{id}/delete")
+    @DeleteMapping("/{id}/delete")
     @ApiResponse(responseCode = "200")
-    @Operation(summary = "Удаляет лицензию")
+    @Operation(summary = "Удаляет кассу")
     public void delete(@Parameter(description = "id удаляемой кассы")
                        @PathVariable Long id) {
 
         cashService.removeById(id);
     }
-    @PostMapping("/organization/{id}")
+    @GetMapping("/organization/{id}")
     @ApiResponse(responseCode = "200")
     @Operation(summary = "Возвращает кассы заданной организации")
     public Response<List<CashDto>> getByOrganization(@Parameter(description = "Идентификатор организации, по которому ищутся кассы")
@@ -62,7 +63,7 @@ public class CashController {
 
         return Response.withData(cashService.getByOrganization(id));
     }
-    @PostMapping("/user/allow/{id}")
+    @GetMapping("/user/allow/get/{id}")
     @ApiResponse(responseCode = "200")
     @Operation(summary = "Возвращает кассы доступные пользователю")
     public Response<List<CashDto>> getByAllowUser(@Parameter(description = "Идентификатор пользователя, по которому ищутся кассы")
@@ -71,5 +72,14 @@ public class CashController {
         return Response.withData(cashService.getByAllowUser(id));
     }
 
+    @PostMapping("/user/allow/add/{id}")
+    @ApiResponse(responseCode = "200")
+    @Operation(summary = "Добавляет в кассу доступных пользователю")
+    public void putByAllowUser(@RequestBody UserDto user_allow,
+                               @Parameter(description = "Идентификатор кассы, в которой добавляется разрешенный пользователь")
+                               @PathVariable Long id) {
+
+        cashService.putByAllowUser(id,user_allow);
+    }
 
 }

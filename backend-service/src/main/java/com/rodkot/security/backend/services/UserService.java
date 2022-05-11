@@ -11,7 +11,7 @@ import com.rodkot.security.backend.entity.User;
 import java.util.List;
 
 public interface UserService {
-    User saveUser(User user);
+
     User getUser(String username);
 
     void addRoleToUser(String username, String roleName);
@@ -20,11 +20,11 @@ public interface UserService {
 
     List<UserDto> getAll();
 
-    void addUser(UserDto user);
-
-    void updateUser(Long idUser, UserDto userDto);
+    User updateUser(Long idUser, UserDto userDto);
 
     void deleteUser(Long idUser);
 
-    UserDto getUserById(Long idUser);
+    User getUserById(Long idUser);
+
+    User saveUser(UserDto userDTO);
 }

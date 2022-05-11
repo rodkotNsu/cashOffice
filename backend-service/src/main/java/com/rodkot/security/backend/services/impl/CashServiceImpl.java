@@ -39,9 +39,9 @@ public class CashServiceImpl implements CashService {
     }
 
     @Override
-    public void addCash(CashDto cashDto) {
+    public Cash addCash(CashDto cashDto) {
         Cash cash = cashMapper.cashDtoToCash(cashDto);
-        cashRepo.save(cash);
+      return   cashRepo.save(cash);
     }
 
     @Override

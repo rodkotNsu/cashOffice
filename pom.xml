@@ -38,6 +38,11 @@
                 <scope>import</scope>
             </dependency>
             <dependency>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.7</version>
+            </dependency>
+            <dependency>
                 <groupId>io.jsonwebtoken</groupId>
                 <artifactId>jjwt</artifactId>
                 <version>0.7.0</version>
@@ -47,6 +52,8 @@
                 <artifactId>common</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
+
         </dependencies>
     </dependencyManagement>
 </project>

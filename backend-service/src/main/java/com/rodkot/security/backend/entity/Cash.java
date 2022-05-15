@@ -1,10 +1,7 @@
 package com.rodkot.security.backend.entity;
 
 import com.rodkot.security.backend.exception.InsufficientFundsException;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -16,17 +13,18 @@ import java.util.Collection;
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Cash {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Long id;
 
     @ManyToOne
     private Organization organization;
 
-    @Column
+    @Column(unique = true)
     private String name;
 
     @Column

@@ -14,6 +14,7 @@ import com.rodkot.security.backend.services.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.mapstruct.control.MappingControl;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -37,8 +38,6 @@ public class UserServiceImpl implements UserService {
     private final RoleRepo roleRepo;
 
     private final UserMapper userMapper;
-
-
 
 
     @Override
@@ -69,10 +68,9 @@ public class UserServiceImpl implements UserService {
     }
 
 
-
     @Override
     public User updateUser(Long idUser, UserDto userDto) {
-        User user= userMapper.userDtoToUser(userDto);
+        User user = userMapper.userDtoToUser(userDto);
         user.setId(idUser);
         return saveUser(userMapper.userToUserDto(user));
     }
@@ -92,7 +90,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public User saveUser(UserDto userDTO) {
         User userToSave = userMapper.userDtoToUser(userDTO);
+        try {
+            return userRepo.save(userToSave);
+        } catch (DataIntegrityViolationException e) {
+            throw new BadRequestException("Уже есть пользователь с таким именем");
+        }
+        catch (Exception e){
+            return null;
+        }
 
-        return userRepo.save(userToSave);
     }
 }

@@ -8,6 +8,7 @@ import com.rodkot.security.backend.mapper.RoleMapper;
 import com.rodkot.security.backend.repository.RoleRepo;
 import com.rodkot.security.backend.services.RoleService;
 import lombok.AllArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,7 +23,12 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Role saveRole(RoleDto roleDto) {
-        return roleRepo.save(roleMapper.roleDtoToRole(roleDto));
+        try {
+            return roleRepo.save(roleMapper.roleDtoToRole(roleDto));
+        }catch (DataIntegrityViolationException e){
+            throw new BadRequestException("Уже есть роль с таким названием");
+        }
+
     }
 
     @Override

@@ -1,12 +1,11 @@
 package com.rodkot.security.backend.controller;
 
-import com.rodkot.security.backend.exception.ErrorCode;
-import com.rodkot.security.backend.exception.Response;
-import com.rodkot.security.backend.exception.BasicLicenceException;
-import com.rodkot.security.backend.exception.IODocumentException;
-import com.rodkot.security.backend.exception.InsufficientFundsException;
+import com.rodkot.security.backend.exception.*;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,6 +21,18 @@ public class ExceptionHandlingController {
         return getResponseWithError(exception.getErrorCode(), exception);
     }
 
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Response<Void>> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
+        return getResponseWithError(ErrorCode.BAD_REQUEST, exception);
+    }
+
+    @ExceptionHandler(MethodArgumentNotUniqueException.class)
+    public ResponseEntity<Response<Void>> handleMethodArgumentNonUniqueException(MethodArgumentNotUniqueException exception) {
+        return getResponseWithError(ErrorCode.BAD_REQUEST, exception);
+    }
+
+
+
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     public ResponseEntity<Response<Void>> handleMaxSizeException(MaxUploadSizeExceededException exception) {
         return getResponseWithError(ErrorCode.PAYLOAD_TOO_LARGE,exception);
@@ -34,6 +45,10 @@ public class ExceptionHandlingController {
 
     @ExceptionHandler(InsufficientFundsException.class)
     public ResponseEntity<Response<Void>> handleInsufficientFundsException(InsufficientFundsException exception) {
+        return getResponseWithError(ErrorCode.BAD_REQUEST,exception);
+    }
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<Response<Void>> handleConstraintViolationException(DataIntegrityViolationException exception) {
         return getResponseWithError(ErrorCode.BAD_REQUEST,exception);
     }
     @ExceptionHandler(Exception.class)

@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -45,7 +46,7 @@ public class CashController {
     @ApiResponse(responseCode = "200")
     @Operation(summary = "Создает кассу")
     @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Объект новой кассы")
-    public Response<CashDto> create(@RequestBody CashDto cash) {
+    public Response<CashDto> create(@Valid @RequestBody CashDto cash) {
 
         Cash cashSaved = cashService.addCash(cash);
         return Response.withData(cashMapper.cashToCashDto(cashSaved));
@@ -82,7 +83,7 @@ public class CashController {
     @PostMapping("/user/allow/add/{id}")
     @ApiResponse(responseCode = "200")
     @Operation(summary = "Добавляет в кассу доступных пользователю")
-    public void putByAllowUser(@RequestBody UserDto user_allow,
+    public void putByAllowUser(@Valid @RequestBody UserDto user_allow,
                                @Parameter(description = "Идентификатор кассы, в которой добавляется разрешенный пользователь")
                                @PathVariable Long id) {
 

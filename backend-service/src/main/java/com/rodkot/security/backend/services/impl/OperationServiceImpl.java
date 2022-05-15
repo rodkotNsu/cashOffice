@@ -5,11 +5,13 @@ import com.rodkot.security.backend.dto.OperationDto;
 import com.rodkot.security.backend.entity.Cash;
 import com.rodkot.security.backend.entity.Operation;
 import com.rodkot.security.backend.exception.InsufficientFundsException;
+import com.rodkot.security.backend.exception.MethodArgumentNotUniqueException;
 import com.rodkot.security.backend.mapper.OperationMapper;
 import com.rodkot.security.backend.repository.CashRepo;
 import com.rodkot.security.backend.repository.OperationRepo;
 import com.rodkot.security.backend.services.OperationService;
 import lombok.AllArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -41,13 +43,21 @@ public class OperationServiceImpl implements OperationService {
     @Override
     public Operation addOperation(OperationDto operationDto) {
         Operation operation = operationMapper.operationDtoToOperation(operationDto);
-        return operationRepo.save(operation);
+        try {
+            return operationRepo.save(operation);
+        } catch (DataIntegrityViolationException e) {
+            throw new MethodArgumentNotUniqueException("В сервисе уже  касса с таким именем");
+        }
     }
 
     @Override
     public void updateOperation(Long idOperation, OperationDto operationDto) {
         Operation operation = operationMapper.operationDtoToOperation(operationDto);
-        operationRepo.save(operation);
+        try {
+            operationRepo.save(operation);
+        } catch (DataIntegrityViolationException e) {
+            throw new MethodArgumentNotUniqueException("В сервисе уже есть касса с таким именем");
+        }
     }
 
     @Override

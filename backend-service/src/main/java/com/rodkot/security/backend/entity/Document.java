@@ -1,21 +1,19 @@
 package com.rodkot.security.backend.entity;
 
 import com.rodkot.security.backend.entity.operation.TypeDocument;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.OffsetDateTime;
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Document {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column
@@ -25,7 +23,7 @@ public class Document {
     @Column
     private String name;
 
-    @Column
+    @Column(unique = true)
     private String path;
 
     @Column

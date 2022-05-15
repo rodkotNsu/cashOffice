@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -49,7 +50,7 @@ public class OrganizationController {
     @Operation(summary = "Создает организации")
     @ApiResponse(responseCode = "200")
     @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Объект новой организации")
-    public Response<OrganizationDto> create(@RequestBody OrganizationDto organizationDto) {
+    public Response<OrganizationDto> create(@Valid @RequestBody OrganizationDto organizationDto) {
         Organization organizationSaved = organizationService.addOrganization(organizationDto);
         return Response.withData(organizationMapper.organizationToOrganizationDto(organizationSaved));
     }
@@ -59,7 +60,7 @@ public class OrganizationController {
     @ApiResponse(responseCode = "200")
     @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Объект обновленной организации")
     public Response<Void> update(@Parameter(description = "id обновляемой организации") @PathVariable Long id,
-                                 @RequestBody OrganizationDto organization) {
+                                 @Valid @RequestBody OrganizationDto organization) {
         organizationService.updateOrganization(id, organization);
         return Response.withoutErrors();
     }

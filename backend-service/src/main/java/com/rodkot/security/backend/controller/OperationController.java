@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -42,7 +43,7 @@ public class OperationController {
     @Operation(summary = "Создает Операцию")
     @ApiResponse(responseCode = "200")
     @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Объект новой организации")
-    public Response<OperationDto> create(@RequestBody OperationDto operationDto) {
+    public Response<OperationDto> create(@Valid @RequestBody OperationDto operationDto) {
         com.rodkot.security.backend.entity.Operation operation = operationService.addOperation(operationDto);
         return Response.withData(operationMapper.operationToOperationDto(operation));
     }
@@ -51,7 +52,7 @@ public class OperationController {
     @Operation(summary = "Создает операцию и выполняет ее над кассой")
     @ApiResponse(responseCode = "200")
     @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Объект новой организации")
-    public Response<Void> addOperationInCash(@RequestBody OperationDto operationDto,
+    public Response<Void> addOperationInCash(@Valid @RequestBody OperationDto operationDto,
                                              @Parameter(description = "Идентификатор кассы, в которой добавляется операция")
                                              @PathVariable Long id) {
         operationService.addOperationInCash(id, operationDto);
@@ -63,7 +64,7 @@ public class OperationController {
     @ApiResponse(responseCode = "200")
     @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Объект обновленной организации")
     public Response<Void> update(@Parameter(description = "id обновляемой операции") @PathVariable Long id,
-                                 @RequestBody OperationDto operationDto) {
+                                 @Valid @RequestBody OperationDto operationDto) {
         operationService.updateOperation(id, operationDto);
         return Response.withoutErrors();
     }

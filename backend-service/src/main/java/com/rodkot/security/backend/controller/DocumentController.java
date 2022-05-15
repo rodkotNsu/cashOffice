@@ -12,6 +12,7 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -23,7 +24,7 @@ public class DocumentController {
     @PostMapping("/upload")
     @ApiResponse(responseCode = "200")
     @Operation(summary = "Загружает новый документ")
-    public Response<Void> uploadFile(@RequestBody DocumentDto documentDto, @RequestParam("file") MultipartFile file) {
+    public Response<Void> uploadFile(@Valid @RequestBody DocumentDto documentDto, @RequestParam("file") MultipartFile file) {
         documentService.save(documentDto, file);
         return Response.withoutErrors();
     }

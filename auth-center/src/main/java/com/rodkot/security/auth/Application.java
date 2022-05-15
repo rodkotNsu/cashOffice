@@ -12,11 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Spring boot app.
- *
- * @author shuaicj 2017/10/18
- */
 @SpringBootApplication
 public class Application {
 

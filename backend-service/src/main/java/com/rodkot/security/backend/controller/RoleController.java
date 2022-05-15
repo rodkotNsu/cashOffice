@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -43,7 +44,7 @@ public class RoleController {
     @ApiResponse(responseCode = "200")
     @Operation(summary = "Создает роль")
     @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Объект новой роли")
-    public Response<RoleDto> create(@RequestBody RoleDto roleDto) {
+    public Response<RoleDto> create(@Valid @RequestBody RoleDto roleDto) {
         Role role = roleService.addRole(roleDto);
         return Response.withData(roleMapper.roleToRoleDto(role));
     }
@@ -52,7 +53,7 @@ public class RoleController {
     @ApiResponse(responseCode = "200")
     @Operation(summary = "Обновляет роль")
     @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Объект обновленной роли")
-    public Response<Void> update(@RequestBody RoleDto roleDto,
+    public Response<Void> update(@Valid @RequestBody RoleDto roleDto,
                                  @Parameter(description = "Идентификатор необходимой роли")
                                  @PathVariable Long id) {
 

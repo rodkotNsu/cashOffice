@@ -14,6 +14,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -47,7 +48,7 @@ public class UserController {
     @Operation(summary = "Создает пользователя")
     @ApiResponse(responseCode = "200")
     @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Объект нового пользователя")
-    public Response<UserDto> create(@RequestBody UserDto user) {
+    public Response<UserDto> create(@Valid @RequestBody UserDto user) {
         User createUser = userService.saveUser(user);
         UserDto userDto = userMapper.userToUserDto(createUser);
         return Response.withData(userDto);
@@ -57,7 +58,7 @@ public class UserController {
     @Operation(summary = "Обновляет пользователя")
     @ApiResponse(responseCode = "200")
     @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Объект обновленного пользователя")
-    public Response<UserDto> update(@RequestBody UserDto user,
+    public Response<UserDto> update(@Valid @RequestBody UserDto user,
                                     @Parameter(description = "id обновляемого пользователя")
                                     @PathVariable Long id) {
         User userCreate = userService.updateUser(id, user);

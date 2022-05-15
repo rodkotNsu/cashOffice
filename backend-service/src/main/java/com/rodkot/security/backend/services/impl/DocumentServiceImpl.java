@@ -3,11 +3,13 @@ package com.rodkot.security.backend.services.impl;
 import com.rodkot.security.backend.dto.DocumentDto;
 import com.rodkot.security.backend.entity.Document;
 import com.rodkot.security.backend.exception.IODocumentException;
+import com.rodkot.security.backend.exception.MethodArgumentNotUniqueException;
 import com.rodkot.security.backend.mapper.DocumentMapper;
 import com.rodkot.security.backend.repository.DocumentRepo;
 import com.rodkot.security.backend.services.DocumentService;
 import lombok.AllArgsConstructor;
 import org.springframework.core.io.UrlResource;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -48,6 +50,10 @@ public class DocumentServiceImpl implements DocumentService {
         } catch (IOException e) {
             throw new IODocumentException("Ошибка в сохранении документа!!!");
         }
+        catch (DataIntegrityViolationException e){
+            throw new MethodArgumentNotUniqueException("В сервисе уже есть касса с таким именем");
+        }
+
     }
 
     @Deprecated

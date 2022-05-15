@@ -1,6 +1,7 @@
 package com.rodkot.security.backend.services;
 
 import com.rodkot.security.backend.dto.OrganizationDto;
+import com.rodkot.security.backend.entity.Organization;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ public interface OrganizationService {
 
     List<OrganizationDto> getAllByUser(Long id);
 
-    void addOrganization(OrganizationDto organization);
+    Organization addOrganization(OrganizationDto organization);
 
     void removeById(Long id);
 

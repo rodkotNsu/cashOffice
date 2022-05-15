@@ -3,10 +3,7 @@ package com.rodkot.security.backend.entity;
 import com.rodkot.security.backend.entity.operation.TypeOperation;
 import com.rodkot.security.backend.entity.operation.ConfigureOperation;
 import com.rodkot.security.backend.entity.operation.OperationAction;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.OffsetDateTime;
@@ -16,11 +13,12 @@ import java.util.Collection;
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Operation {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column

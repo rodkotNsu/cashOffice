@@ -3,7 +3,7 @@ package com.rodkot.security.backend.entity.operation;
 import com.rodkot.security.backend.exception.InsufficientFundsException;
 
 public class ConfigureOperation {
-    static OperationAction getOperationAction(TypeOperation typeOperation){
+    static public OperationAction getOperationAction(TypeOperation typeOperation){
         switch (typeOperation){
             case WITHDRAWALS:
                 return withdrawalsAction;

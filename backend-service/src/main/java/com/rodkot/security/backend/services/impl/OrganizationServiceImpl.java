@@ -49,9 +49,9 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    public void addOrganization(OrganizationDto organizationDto) {
+    public Organization addOrganization(OrganizationDto organizationDto) {
         Organization organization = organizationMapper.organizationDtoToOrganization(organizationDto);
-        organizationRepo.save(organization);
+        return organizationRepo.save(organization);
     }
 
     @Override

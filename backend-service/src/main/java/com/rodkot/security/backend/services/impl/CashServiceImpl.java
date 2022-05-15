@@ -6,11 +6,13 @@ import com.rodkot.security.backend.dto.UserDto;
 import com.rodkot.security.backend.entity.Cash;
 import com.rodkot.security.backend.entity.Operation;
 import com.rodkot.security.backend.exception.BadRequestException;
+import com.rodkot.security.backend.exception.MethodArgumentNotUniqueException;
 import com.rodkot.security.backend.mapper.CashMapper;
 import com.rodkot.security.backend.repository.CashRepo;
 import com.rodkot.security.backend.services.CashService;
 import com.rodkot.security.backend.services.OperationService;
 import lombok.AllArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -39,9 +41,13 @@ public class CashServiceImpl implements CashService {
     }
 
     @Override
-    public void addCash(CashDto cashDto) {
+    public Cash addCash(CashDto cashDto) {
         Cash cash = cashMapper.cashDtoToCash(cashDto);
-        cashRepo.save(cash);
+        try {
+           return cashRepo.save(cash);
+        }catch (DataIntegrityViolationException e){
+            throw new MethodArgumentNotUniqueException("В сервисе уже есть касса с таким именем");
+        }
     }
 
     @Override
